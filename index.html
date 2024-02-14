@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <section class="container">
+      <header>Registration Form In JS</header>
+      <form
+        name="myForm"
+        onsubmit="return validateForm(event)"
+        action="#"
+        class="form"
+      >
+        <div class="input-box">
+          <label>First name</label>
+          <input
+            name="fname"
+            id="fname"
+            type="text"
+            placeholder="Enter first name"
+            required
+          />
+          <label>Last name</label>
+          <input
+            id="last-name"
+            type="text"
+            placeholder="Enter last name"
+            required
+          />
+        </div>
+        <div class="DOB">
+          <label for="birthday">Birthday:</label>
+          <input required id="DOB" type="date" name="birthday" />
+        </div>
+
+        <div class="gender-box">
+          <h3>Gender</h3>
+          <div class="gender-option">
+            <div id="gender" class="gender">
+              <input
+                required
+                type="radio"
+                id="check-male"
+                name="gender"
+                value="male"
+                checked
+              />
+
+              <label for="check-male">male</label>
+            </div>
+            <div id="gender" class="gender">
+              <input
+                type="radio"
+                id="check-female"
+                name="gender"
+                value="female"
+                required
+              />
+              <label for="check-female">Female</label>
+            </div>
+            <div id="gender" class="gender">
+              <input
+                type="radio"
+                id="check-female"
+                name="gender"
+                value="prefer not to say"
+                required
+              />
+              <label for="check-female">prefer not to say</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="input-box address">
+          <label>Address</label>
+          <input
+            id="address"
+            type="text"
+            placeholder="Enter street address"
+            required
+          />
+
+          <div class="column">
+            <div class="select-box">
+              <select>
+                <option hidden>Country</option>
+                <option>America</option>
+                <option>Russia</option>
+                <option>Pakistan</option>
+                <option>Japan</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="input-box">
+          <label>Email Address</label>
+          <input
+            id="email"
+            type="email"
+            placeholder="Enter email address"
+            required
+          />
+        </div>
+        <div class="language-box">
+          <h3>Language</h3>
+          <div class="language-option">
+            <div id="language" class="gender">
+              <input
+                type="checkbox"
+                value="English"
+                id="check-male"
+                name="language"
+                checked
+                required
+              />
+              <label for="check-male">English</label>
+            </div>
+            <div id="language" class="Language">
+              <input
+                type="checkbox"
+                value="Urdu"
+                id="check-female"
+                name="language"
+              />
+              <label for="check-female">Urdu</label>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit">Submit</button>
+      </form>
+      <div class="final-output">
+        <p id="demo"></p>
+      </div>
+    </section>
+
+    <script>
+      function validateForm(event) {
+        event.preventDefault();
+        let firstName = document.getElementById("fname").value;
+        let lastName = document.getElementById("last-name").value;
+        let calculatedAge = getDOB();
+        let address = document.getElementById("address").value;
+        let gender = document.querySelector("input[type=radio]:checked").value;
+        var language = "";
+        var checkboxes = document.querySelectorAll(
+          "input[type=checkbox]:checked"
+        );
+        checkboxes.forEach((checkbox) => {
+          language += checkbox.value + ",";
+        });
+        let emailAddress = document.getElementById("email").value;
+        let output = `I am ${firstName} ${lastName}. I am ${calculatedAge} old. I am ${gender}. I live in ${address}. You can contact me using my email address: ${emailAddress}.<br>I love to speak ${language}<br>Thank you`;
+        document.getElementById("demo").innerHTML = output;
+      }
+
+      // Define funtion to get calculated Age
+      function getDOB() {
+        // Getting input from html input element
+        let data = document.getElementById("DOB").value;
+
+        // Convert input data to usable format
+        // as day,month and year
+        let dob = new Date(data);
+        let day = dob.getDate();
+        let month = dob.getMonth();
+        let year = dob.getFullYear();
+
+        // Getting current date and calculating the difference
+        const now = new Date();
+        now.getFullYear();
+
+        let yearDiff = now.getFullYear() - year;
+        let monthDiff = now.getMonth() - month;
+        let dateDiff = now.getDate() - day;
+
+        // Calculating the Age
+        if (yearDiff < 0) console.log("invalid date");
+        else if (monthDiff > 0) {
+          console.log(yearDiff);
+        } else if (monthDiff === 0 && dateDiff >= 0) {
+          console.log(yearDiff);
+        } else {
+          yearDiff = yearDiff - 1;
+          if (monthDiff <= 0)
+            if (dateDiff > 0) monthDiff = 12 + monthDiff;
+            else monthDiff = 11 - monthDiff;
+        }
+        if (dateDiff < 0) {
+          dateDiff = 30 + dateDiff;
+          monthDiff -= 1;
+        }
+
+        let errormessage = "invald Date";
+
+        let calculatedAge =
+          +yearDiff + " years " + monthDiff + " months " + dateDiff + " days";
+
+        if (yearDiff < 0) return errormessage;
+        else return calculatedAge;
+      }
+    </script>
+  </body>
+</html>
